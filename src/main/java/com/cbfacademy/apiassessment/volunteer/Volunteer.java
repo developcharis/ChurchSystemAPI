@@ -19,7 +19,7 @@ public class Volunteer extends Person {
     private String role;
 
     // Descriptive list of skills or expertise the volunteer brings to the organization
-    private String skills;
+    private List<String> skills;
    
     // Indicates whether the volunteer is currently active within the organization
     private boolean isActive;
