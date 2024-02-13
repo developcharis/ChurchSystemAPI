@@ -28,6 +28,12 @@ public class JsonVolunteerRepository implements VolunteerRepository {
     // Logger instance for logging errors and information.
     private static final Logger logger = LoggerFactory.getLogger(JsonVolunteerRepository.class);
 
+    
+    // Constructor that initialises the repository by loading volunteers from the JSON file.
+    public JsonVolunteerRepository() {
+        loadVolunteers();
+    }
+    
+    
 
 }
-    
