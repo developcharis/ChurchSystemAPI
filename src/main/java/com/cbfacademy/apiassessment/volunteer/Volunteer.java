@@ -143,4 +143,24 @@ public class Volunteer extends Person {
         this.dateJoined = dateJoined;
     }
 
+    // Methods for adding and removing skills
+
+    /**
+     * Add a skill to the volunteer's list of skills.
+     * 
+     * @param skill The skill to be added to the volunteer's list of skills.
+     */
+    public void addSkill(String skill) {
+        this.skills.add(skill);
+    }
+
+    /**
+     * Removes a skill from the volunteer's lst of skills.
+     * 
+     * @param skill The skill to be removed from the volunteer's list of skills. 
+     */    
+    public void removeSkill(String skill) {
+        this.skills.remove(skill);
+    }
+    
 }
