@@ -88,21 +88,21 @@ public class Volunteer extends Person {
 
 
     /**
-     * Returns the skills or expertise the volunteer contributes to their role.
-     *
-     * @return the skills or expertise the volunteer contributes to their role.
+     * Returns the list of skills or expertise the volunteer contributes to their role.
+     * 
+     * @return A list of skills or expertise the volunteer contributes to their role.
      */
-    public String getSkills() {
+    public List<String> getSkills() {
         return skills;
     }
 
     /**
-     * Sets the skills or expertise the volunteer contributes to their role
-     *
-     * @param skills A String representing the skills or expertise the volunteer contributes to their role.
+     * Sets the list of skills or expertise the volunteer contributes to their role.
+     * 
+     * @param skills A list representing the skills or expertise the volunteer contributes to their role.
      */
-    public void setSkills(String skills) {
-        this.skills = skills;
+    public void setSkills(List<String> skills) {
+        this.skills = new ArrayList<>(skills); // Assign a copy of the provided list
     }
 
 
