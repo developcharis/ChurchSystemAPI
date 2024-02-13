@@ -1,6 +1,8 @@
 package com.cbfacademy.apiassessment.volunteer;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import com.cbfacademy.apiassessment.person.Person;
@@ -42,11 +44,11 @@ public class Volunteer extends Person {
      * @param isActive         A flag indicating whether the volunteer is currently active.
      * @param dateJoined       The date on which the volunteer joined the organization, marking the start of their involvement.
      */
-    public Volunteer(String firstName, String lastName, LocalDate dateOfBirth, String contactNumber, String email, String role, String skills, boolean isActive, LocalDate dateJoined) {
+    public Volunteer(String firstName, String lastName, LocalDate dateOfBirth, String contactNumber, String email, String role, List<String> skills, boolean isActive, LocalDate dateJoined) {
         super(firstName, lastName, dateOfBirth, contactNumber, email); // Initialize Person attributes
         this.id = UUID.randomUUID(); // Generate a unique identifier
         this.role = role;
-        this.skills = skills;
+        this.skills = new ArrayList<>(skills); // Initialise with a copy of the provided list
         this.isActive = isActive;
         this.dateJoined = dateJoined;
     }
