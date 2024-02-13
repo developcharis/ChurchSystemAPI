@@ -42,12 +42,12 @@ public interface VolunteerRepository {
 
 
     /**
-     * Finds volunteers by their skills. This method retrieves all volunteers that have a specific skill.
+     * Finds volunteers by their skills. This method retrieves all volunteers that have any of the specified skills.
      *
-     * @param skill the skill to search for in volunteers
-     * @return a list of volunteers who possess the specified skill, which may be empty if no such volunteers exist
+     * @param skills the list of skills to search for in volunteers
+     * @return a list of volunteers who possess the specified skills, which may be empty if no such volunteers exist
      */
-    List<Volunteer> findBySkill(String skill);
+    List<Volunteer> findBySkills(List<String> skills);
 
 
     /**
