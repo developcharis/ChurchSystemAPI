@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -143,5 +146,60 @@ public class JsonVolunteerRepository implements VolunteerRepository {
         }
     }
 
+    // CRUD operations 
+
+    // Saves a new volunteer to the list or updates an existing one, then saves the list to the JSON file.
+    @Override
+    public Volunteer save(Volunteer volunteer) {
+        Optional<Volunteer> existingVolunteer = findById(volunteer.getId());
+        if (existingVolunteer.isPresent()) {
+            int index = volunteers.indexOf(existingVolunteer.get());
+            volunteers.set(index, volunteer);
+        } else {
+            volunteers.add(volunteer);
+        }
+        saveVolunteers();
+        return volunteer;
+    }
+
+    // Finds a volunteer by their UUID.
+    @Override
+    public Optional<Volunteer> findById(UUID id) {
+            return volunteers.stream()
+                             .filter(volunteer -> volunteer.getId().equals(id))
+                             .findFirst();
+    }
+
+    // Returns a list of all volunteers.
+    @Override
+    public List<Volunteer> findAll() {
+        return volunteers;
+    }
+
+    // Removes a volunteer from the list and updates the JSON file.
+    @Override
+        public void delete(Volunteer volunteer) {
+        volunteers.remove(volunteer);
+        saveVolunteers();
+    }
+
+    // Finds volunteers by a specific skill.
+    @Override
+    public List<Volunteer> findBySkill(String skill) {
+        return volunteers.stream()
+                         .filter(volunteer -> volunteer.getSkills() != null && volunteer.getSkills().stream().anyMatch(s -> s.equalsIgnoreCase(skill)))
+                         .collect(Collectors.toList());
+
+
+     // Finds volunteers based on their activity status.
+    @Override
+    public List<Volunteer> findByIsActive(boolean isActive) {
+        return volunteers.stream()
+                         .filter(volunteer -> volunteer.isActive() == isActive)
+                         .collect(Collectors.toList());
+    }
+
 
 }
+
+
