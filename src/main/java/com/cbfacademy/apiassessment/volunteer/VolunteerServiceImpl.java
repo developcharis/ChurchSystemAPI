@@ -125,6 +125,7 @@ public class VolunteerServiceImpl implements VolunteerService {
             throw new IllegalArgumentException("Invalid email format.");
     }
 
+
     /**
      * Retrieves all volunteers from the repository
      *
@@ -148,6 +149,21 @@ public class VolunteerServiceImpl implements VolunteerService {
         return volunteerRepository.findById(id)
                 .orElseThrow(() -> new VolunteerNotFoundException(id));
     }
+
+
+    /**
+     * Deletes a volunteer identified by their UUID.
+     *
+     * @param id the UUID of the volunteer to delete
+     * @throws VolunteerNotFoundException if no volunteer is found with the specified UUID
+     */
+    @Override
+    public void deleteVolunteer(UUID id) {
+        Volunteer volunteer = getVolunteerById(id); // Ensures volunteer exists before deletion
+        volunteerRepository.delete(volunteer);
+    }
+   
+   
 
 
 
