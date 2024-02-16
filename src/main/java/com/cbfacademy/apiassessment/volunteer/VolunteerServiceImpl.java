@@ -119,6 +119,9 @@ public class VolunteerServiceImpl implements VolunteerService {
         if (volunteer.getEmail() == null || volunteer.getEmail().trim().isEmpty()) {
             throw new IllegalArgumentException("Email is required.");
         }
+        // Email format validation
+        if (!volunteer.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            throw new IllegalArgumentException("Invalid email format.");
     }
 
 
