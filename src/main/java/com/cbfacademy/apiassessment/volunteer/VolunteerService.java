@@ -3,6 +3,8 @@ package com.cbfacademy.apiassessment.volunteer;
 import java.util.List;
 import java.util.UUID;
 
+import com.cbfacademy.apiassessment.search.AdvancedSearchQuery;
+
 public interface VolunteerService {
     
     /**
@@ -49,5 +51,15 @@ public interface VolunteerService {
      */
     void deleteVolunteer(UUID id);
 
-
+    /**
+     * Searches for volunteers based on a set of criteria encapsulated in an AdvancedSearchQuery object.
+     * This method allows for complex queries, such as filtering by skills, availability, or other attributes.
+     *
+     * @param query The AdvancedSearchQuery object containing the search criteria.
+     * @return A list of volunteers that match the search criteria.
+     */
+    List<Volunteer> searchVolunteers(AdvancedSearchQuery query);
+   
 }
+
+cd
