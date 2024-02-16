@@ -2,6 +2,7 @@ package com.cbfacademy.apiassessment.volunteer;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -163,7 +164,32 @@ public class VolunteerServiceImpl implements VolunteerService {
         volunteerRepository.delete(volunteer);
     }
    
-   
+    /**
+     * Searches for volunteers based on an advanced query that includes active status, skills, and role.
+     * <p>
+     * This method retrieves all volunteers and filters them based on the provided criteria in the {@link AdvancedSearchQuery} object.
+     * The filtering process considers the volunteer's active status, their skills, and optionally their role if it is specified in the query.
+     * </p>
+     *
+     * @param query the advanced search criteria including active status, skills list, and optionally the role
+     * @return a list of volunteers matching the search criteria
+     */
+    @Override
+    public List<Volunteer> searchVolunteers(AdvancedSearchQuery query) {
+        List<Volunteer> allVolunteers = volunteerRepository.findAll();
+        
+        return allVolunteers.stream()
+                // Filter by active status
+                .filter(volunteer -> volunteer.isActive() == query.isActive())
+                // Filter by matching skills, if skills are specified in the query
+                .filter(volunteer -> matchesSkills(volunteer, query.getSkills()))
+                // Filter by role, if a role is specified in the query
+                .filter(volunteer -> query.getRole() == null || volunteer.getRole().equals(query.getRole()))
+                .collect(Collectors.toList()); // Collect and return the list of matching volunteers
+
+
+    }
+
 
 
 
