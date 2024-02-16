@@ -136,6 +136,19 @@ public class VolunteerServiceImpl implements VolunteerService {
     }
 
 
+    /**
+     * Fetches a single volunteer by their UUID.
+     *
+     * @param id the UUID of the volunteer to retrieve
+     * @return the found volunteer
+     * @throws VolunteerNotFoundException if no volunteer is found with the specified UUID
+     */
+    @Override
+    public Volunteer getVolunteerById(UUID id) {
+        return volunteerRepository.findById(id)
+                .orElseThrow(() -> new VolunteerNotFoundException(id));
+    }
+
 
 
 
