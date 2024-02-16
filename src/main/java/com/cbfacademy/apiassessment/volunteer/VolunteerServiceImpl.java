@@ -100,6 +100,27 @@ public class VolunteerServiceImpl implements VolunteerService {
                 .orElseThrow(() -> new VolunteerNotFoundException(id));
 }
 
+    /**
+    * Validates the mandatory fields of a volunteer.
+    *
+    * @param volunteer the volunteer to validate.
+    * @throws IllegalArgumentException if any mandatory field is empty.
+    */
+    private void validateVolunteer(Volunteer volunteer) {
+        if (volunteer.getFirstName() == null || volunteer.getFirstName().trim().isEmpty()) {
+            throw new IllegalArgumentException("First name is required.");
+        }
+        if (volunteer.getLastName() == null || volunteer.getLastName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Last name is required.");
+        }
+        if (volunteer.getContactNumber() == null || volunteer.getContactNumber().trim().isEmpty()) {
+            throw new IllegalArgumentException("Contact number is required.");
+        }
+        if (volunteer.getEmail() == null || volunteer.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("Email is required.");
+        }
+    }
+
 
 
 
