@@ -31,5 +31,15 @@ public interface VolunteerService {
      */
     Volunteer getVolunteerById(UUID id);
 
+    /**
+     * Updates an existing volunteer's information.
+     * The method locates the volunteer by their unique ID and updates their details.
+     *
+     * @param id The unique identifier of the volunteer to be updated.
+     * @param volunteer The volunteer object containing updated information.
+     * @return The updated volunteer object reflecting the changes made.
+     */
+    Volunteer updateVolunteer(UUID id, Volunteer volunteer);
+
 
 }
