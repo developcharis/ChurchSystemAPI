@@ -1,5 +1,6 @@
 package com.cbfacademy.apiassessment.volunteer;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -123,6 +124,17 @@ public class VolunteerServiceImpl implements VolunteerService {
         if (!volunteer.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
             throw new IllegalArgumentException("Invalid email format.");
     }
+
+    /**
+     * Retrieves all volunteers from the repository
+     *
+     * @return a list of all volunteers
+     */
+    @Override
+    public List<Volunteer> getAllVolunteers() {
+        return volunteerRepository.findAll();
+    }
+
 
 
 
