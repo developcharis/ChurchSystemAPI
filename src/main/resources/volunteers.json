@@ -1,0 +1,51 @@
+[
+    {
+        "id":"906309a9-f15e-4f73-8d9f-dfa90cd5edde",
+        "role":"Administrator",
+        "skills":["Organizational","Attention to detail","Computer skills"],
+        "isActive":true,
+        "firstName":"Elizabeth",
+        "lastName":"John",
+        "contactNumber":"07584986718",
+        "email":"lizzi.john@yahoo.com"
+    },
+    {
+        "id":"636b019f-bea7-4873-aeba-69f4aa097e1e",
+        "role":"Accountant",
+        "skills":["Financial analysis","Integrity","Taxation knowledge"],
+        "isActive":false,
+        "firstName":"Matthew",
+        "lastName":"Lazarus",
+        "contactNumber":"07553698744",
+        "email":"matthewlazarus12@gmail.com"
+    },
+    {
+        "id":"82b92c5e-fbac-4b17-a2e1-d4c46f4b18f1",
+        "role":"Greeter",
+        "skills":["Welcoming","Friendly demeanor","Effective communication"],
+        "isActive":true,
+        "firstName":"Rachael",
+        "lastName":"Mark",
+        "contactNumber":"07956412843",
+        "email":"markrachael2001@live.co.uk"
+    },
+    {
+        "id":"0557ab8f-8ba3-4fd0-a726-f0568bb65696",
+        "role":"Choir Member",
+        "skills":["Vocal ability","Musicality","Team collaboration"],
+        "isActive":true,
+        "firstName":"Joshua",
+        "lastName":"Nun",
+        "contactNumber":"07383555777",
+        "email":"j.nun@gmail.com"
+    },
+    {
+        "id":"f8319982-57fa-480f-a3eb-d7f23da171da",
+        "role":"Accountant",
+        "skills":["Financial reporting","Analytical thinking","Ethics"],
+        "isActive":true,"firstName":"Sarah",
+        "lastName":"Bethel",
+        "contactNumber":"07958444888",
+        "email":"bethelsarah@me.com"
+    }
+]
