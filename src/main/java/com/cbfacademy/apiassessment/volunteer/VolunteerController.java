@@ -2,6 +2,8 @@ package com.cbfacademy.apiassessment.volunteer;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cbfacademy.apiassessment.search.AdvancedSearchQuery;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -88,5 +90,19 @@ public class VolunteerController {
         volunteerService.deleteVolunteer(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    
+    /**
+     * Searches for volunteers based on provided criteria such as skills and active status.
+     *
+     * @param query The search criteria encapsulated in an AdvancedSearchQuery object.
+     * @return A list of volunteers that match the search criteria, wrapped in a ResponseEntity.
+     */
+    @GetMapping("/search")
+    public ResponseEntity<List<Volunteer>> searchVolunteers(AdvancedSearchQuery query) {
+        List<Volunteer> volunteers = volunteerService.searchVolunteers(query);
+        return new ResponseEntity<>(volunteers, HttpStatus.OK);
+    }
+
 
 }
