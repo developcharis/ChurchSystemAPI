@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.cbfacademy.apiassessment.exception.VolunteerNotFoundException;
+import com.cbfacademy.apiassessment.search.AdvancedSearchQuery;
+
 
 // Marks this class a Spring-managed service component.
 @Service
@@ -100,7 +102,8 @@ public class VolunteerServiceImpl implements VolunteerService {
                     return volunteerRepository.save(existingVolunteer);
                 })
                 .orElseThrow(() -> new VolunteerNotFoundException(id));
-}
+    }
+
 
     /**
     * Validates the mandatory fields of a volunteer.
@@ -124,6 +127,7 @@ public class VolunteerServiceImpl implements VolunteerService {
         // Email format validation
         if (!volunteer.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
             throw new IllegalArgumentException("Invalid email format.");
+        }
     }
 
 
@@ -186,15 +190,21 @@ public class VolunteerServiceImpl implements VolunteerService {
                 // Filter by role, if a role is specified in the query
                 .filter(volunteer -> query.getRole() == null || volunteer.getRole().equals(query.getRole()))
                 .collect(Collectors.toList()); // Collect and return the list of matching volunteers
-
-
     }
 
-
-
-
-
-
+    /**
+     * Checks if a volunteer has any if the required skills.
+     *
+     * @param volunteer the volunteer to check
+     * @param requiredSkills the list of skills to match against the volunteer's skills
+     * @return true if the volunteer has any of the required skills, otherwise false
+    */
+    private boolean matchesSkills(Volunteer volunteer, List<String> requiredSkills) {
+        if (requiredSkills == null || requiredSkills.isEmpty()) {
+            return true;
+        }
+        return requiredSkills.stream().anyMatch(skill -> volunteer.getSkills().contains(skill));
+    }
 
     
 }
