@@ -5,25 +5,21 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-
 import org.springframework.stereotype.Repository;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import ch.qos.logback.classic.Logger;
-import jakarta.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import jakarta.annotation.PostConstruct;
+
 
 
 
@@ -36,8 +32,8 @@ public class JsonVolunteerRepository implements VolunteerRepository {
     private List<Volunteer> volunteers = new ArrayList<>();
     
     // Gson instance for serializing and deserializing JSON data.
-    private final Gson gson - new Gson();
-   
+    private final Gson gson = new Gson();
+
     // Path to the JSON file where volunteer data is stored.
     private final String filePath = "C:/Users/missg/Desktop/CBF/ChurchSystemAPI/src/main/resources/volunteers.json";
 
@@ -50,7 +46,6 @@ public class JsonVolunteerRepository implements VolunteerRepository {
         loadVolunteers();
     }
     
-    // Intialisation methods 
 
     // Loads volunteers from the JSON file into the 'volunteers' list.
     private void loadVolunteers() {
@@ -86,70 +81,66 @@ public class JsonVolunteerRepository implements VolunteerRepository {
     @PostConstruct
     private void initVolunteersData() {
         if (volunteers.isEmpty()) {
-            // Predefined volunteers added to the list for initial setup.
-            // Example volunteer data is hardcoded here for demonstration.
-            volunteers.add(new Volunteer(
+            populateInitialVolunteers();
+            saveVolunteers(); // Save initial data to the JSON file  
+        }
+    }
+
+    // Helper method to populate the list with initial volunteer data.
+    private void populateInitialVolunteers() {
+    // Hardcoded volunteer data for initial setup.
+        volunteers.add(new Volunteer(
                 "Elizabeth", 
                 "John", 
-                LocalDate.of(1980,01,15), 
                 "07584986718", 
                 "lizzi.john@yahoo.com", 
                 "Administrator", 
-                Arrays.asList("Organisational","Attention to detail","Computer skills"), 
-                true, 
-                LocalDate.of(2023,8,15)
-            ));
+                Arrays.asList("Organizational", "Attention to detail", "Computer skills"), 
+                true 
+        ));
 
-            volunteers.add(new Volunteer(
+        volunteers.add(new Volunteer(
                 "Matthew", 
-                "Lazarus", 
-                LocalDate.of(1962, 12, 07), 
+                "Lazarus",
                 "07553698744", 
                 "matthewlazarus12@gmail.com", 
                 "Accountant", 
-                Arrays.asList("Financial analysis", "Attention to detail", "Integrity"), 
-                false, 
-                LocalDate.of(2012, 04, 25)
-            ));
+                Arrays.asList("Financial analysis", "Integrity", "Taxation knowledge"), 
+                false
+        ));
 
-            volunteers.add(new Volunteer(
+        volunteers.add(new Volunteer(
                 "Rachael", 
-                "Mark", 
-                LocalDate.of(2001, 11, 14), 
+                "Mark",
                 "07956412843", 
                 "markrachael2001@live.co.uk", 
                 "Greeter", 
-                Arrays.asList("Interpersonal skills", "Warmth", "Sign Language Proficiency"), 
-                true, 
-                LocalDate.of(2024, 01, 18)
-            ));
+                Arrays.asList("Welcoming", "Friendly demeanor", "Effective communication"), 
+                true
+        ));
 
             volunteers.add(new Volunteer(
                 "Joshua", 
-                "Nun", 
-                LocalDate.of(1990, 01, 01), 
+                "Nun",
                 "07383555777", 
                 "j.nun@gmail.com", 
                 "Choir Member", 
-                Arrays.asList("Musical talent", "Teamwork", "Performance skills"), 
-                true, 
-                LocalDate.of(2020, 01, 01)
+                Arrays.asList("Vocal ability", "Musicality", "Team collaboration"), 
+                true
             ));
 
             volunteers.add(new Volunteer(
                 "Sarah", 
                 "Bethel", 
-                LocalDate.of(1985, 05, 15), 
                 "07958444888", 
                 "bethelsarah@me.com", 
                 "Accountant", 
                 Arrays.asList("Financial reporting", "Analytical thinking", "Ethics"), 
-                true, 
-                LocalDate.of(2019, 05, 20)
+                true
             ));
 
         }
-    }
+    
 
     // CRUD operations 
 
@@ -189,11 +180,12 @@ public class JsonVolunteerRepository implements VolunteerRepository {
     }
 
     // Finds volunteers by a specific skill.
-    @Override
-    public List<Volunteer> findBySkill(String skill) {
-        return volunteers.stream()
-                         .filter(volunteer -> volunteer.getSkills() != null && volunteer.getSkills().stream().anyMatch(s -> s.equalsIgnoreCase(skill)))
-                         .collect(Collectors.toList());
+    @Override 
+    public List<Volunteer> findBySkills(List<String> skills) { // Change 'skill' to 'skills' in the parameter
+    return volunteers.stream()
+                     .filter(volunteer -> volunteer.getSkills() != null && !Collections.disjoint(volunteer.getSkills(), skills))
+                     .collect(Collectors.toList());
+    }
 
 
      // Finds volunteers based on their activity status.
@@ -204,57 +196,4 @@ public class JsonVolunteerRepository implements VolunteerRepository {
                          .collect(Collectors.toList());
     }
 
-
-    // Helper method to populate the list with initial volunteer data.
-private void populateInitialVolunteers() {
-    // Hardcoded volunteer data for initial setup.
-    volunteers.add(new Volunteer(
-            "Elizabeth", 
-            "John", 
-            LocalDate.of(1980, 01, 15), 
-            "07584986718", 
-            "lizzi.john@yahoo.com", 
-            "Administrator", 
-            Arrays.asList("Organizational", "Attention to detail", "Computer skills"), 
-            true, 
-            LocalDate.of(2023, 8, 15)
-    ));
-
-    volunteers.add(new Volunteer(
-            "Matthew", 
-            "Lazarus", 
-            LocalDate.of(1962, 12, 07), 
-            "07553698744", 
-            "matthewlazarus12@gmail.com", 
-            "Accountant", 
-            Arrays.asList("Financial analysis", "Integrity", "Taxation knowledge"), 
-            false, 
-            LocalDate.of(2012, 04, 25)
-    ));
-
-    volunteers.add(new Volunteer(
-            "Rachael", 
-            "Mark", 
-            LocalDate.of(2001, 11, 14), 
-            "07956412843", 
-            "markrachael2001@live.co.uk", 
-            "Greeter", 
-            Arrays.asList("Welcoming", "Friendly demeanor", "Effective communication"), 
-            true, 
-            LocalDate.of(2024, 01, 18)
-    ));
-
-    volunteers.add(new Volunteer(
-            "Joshua", 
-            "Nun", 
-            LocalDate.of(1990, 01, 01), 
-            "07383555777", 
-            "j.nun@gmail.com", 
-            "Choir Member", 
-            Arrays.asList("Vocal ability", "Musicality", "Team collaboration"), 
-            true, 
-            LocalDate.of(2020, 01, 01)
-    ));
-
-}
 }
