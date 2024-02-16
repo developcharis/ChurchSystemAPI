@@ -1,5 +1,7 @@
 package com.cbfacademy.apiassessment.volunteer;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 // Marks this class a Spring-managed service component.
@@ -34,6 +36,38 @@ public class VolunteerServiceImpl implements VolunteerService {
         validateVolunteer(volunteer);
         return volunteerRepository.save(volunteer);
     }
+
+    @Override
+    public Volunteer updateVolunteer(UUID id, Volunteer volunteer) {
+        validateVolunteer(volunteer);
+        return volunteerRepository.findById(id)
+                .map(existingVolunteer -> {
+                    // Update only the fields that are meant to be changed
+                    if (volunteer.getFirstName() != null && !volunteer.getFirstName().trim().isEmpty()) {
+                        existingVolunteer.setFirstName(volunteer.getFirstName());
+                    }
+                    if (volunteer.getLastName() != null && !volunteer.getLastName().trim().isEmpty()) {
+                        existingVolunteer.setLastName(volunteer.getLastName());
+                    }
+                    if (volunteer.getContactNumber() != null && !volunteer.getContactNumber().trim().isEmpty()) {
+                        existingVolunteer.setContactNumber(volunteer.getContactNumber());
+                    }
+                    if (volunteer.getEmail() != null && !volunteer.getEmail().trim().isEmpty()) {
+                        existingVolunteer.setEmail(volunteer.getEmail());
+                    }
+                    if (volunteer.getRole() != null && !volunteer.getRole().trim().isEmpty()) {
+                        existingVolunteer.setRole(volunteer.getRole());
+                    }
+                    if (volunteer.getSkills() != null && !volunteer.getSkills().isEmpty()) {
+                        existingVolunteer.setSkills(volunteer.getSkills());
+                    }
+                        existingVolunteer.setActive(volunteer.isActive());
+                    
+                    // Save and return the updated entity
+                    return volunteerRepository.save(existingVolunteer);
+                })
+                .orElseThrow(() -> new VolunteerNotFoundException(id));
+}
 
 
 
