@@ -41,5 +41,13 @@ public interface VolunteerService {
      */
     Volunteer updateVolunteer(UUID id, Volunteer volunteer);
 
+    /**
+     * Deletes a volunteer from the system.
+     * The volunteer to be deleted is identified by their unique ID.
+     *
+     * @param id The unique identifier of the volunteer to be deleted.
+     */
+    void deleteVolunteer(UUID id);
+
 
 }
