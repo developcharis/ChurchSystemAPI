@@ -90,6 +90,7 @@ public class JsonVolunteerRepository implements VolunteerRepository {
     private void populateInitialVolunteers() {
     // Hardcoded volunteer data for initial setup.
         volunteers.add(new Volunteer(
+                UUID.randomUUID(),
                 "Elizabeth", 
                 "John", 
                 "07584986718", 
@@ -100,6 +101,7 @@ public class JsonVolunteerRepository implements VolunteerRepository {
         ));
 
         volunteers.add(new Volunteer(
+                UUID.randomUUID(),
                 "Matthew", 
                 "Lazarus",
                 "07553698744", 
@@ -110,6 +112,7 @@ public class JsonVolunteerRepository implements VolunteerRepository {
         ));
 
         volunteers.add(new Volunteer(
+                UUID.randomUUID(),
                 "Rachael", 
                 "Mark",
                 "07956412843", 
@@ -120,6 +123,7 @@ public class JsonVolunteerRepository implements VolunteerRepository {
         ));
 
             volunteers.add(new Volunteer(
+                UUID.randomUUID(),
                 "Joshua", 
                 "Nun",
                 "07383555777", 
@@ -130,6 +134,7 @@ public class JsonVolunteerRepository implements VolunteerRepository {
             ));
 
             volunteers.add(new Volunteer(
+                UUID.randomUUID(),
                 "Sarah", 
                 "Bethel", 
                 "07958444888", 
@@ -149,9 +154,11 @@ public class JsonVolunteerRepository implements VolunteerRepository {
     public Volunteer save(Volunteer volunteer) {
         Optional<Volunteer> existingVolunteer = findById(volunteer.getId());
         if (existingVolunteer.isPresent()) {
+            // Update the existing volunteer's fields except for the ID
             int index = volunteers.indexOf(existingVolunteer.get());
-            volunteers.set(index, volunteer);
+            volunteers.set(index, volunteer); // Assumes that volunteer has the same ID
         } else {
+            // For a new volunteer, ensure the ID is set (possibly in the constructor before this point)
             volunteers.add(volunteer);
         }
         saveVolunteers();
