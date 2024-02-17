@@ -38,9 +38,9 @@ public class Volunteer extends Person {
      * @param skills           The skills or expertise the volunteer contributes to their role.
      * @param isActive         A flag indicating whether the volunteer is currently active.
      */
-    public Volunteer(String firstName, String lastName, String contactNumber, String email, String role, List<String> skills, boolean isActive) {
+    public Volunteer(UUID id, String firstName, String lastName, String contactNumber, String email, String role, List<String> skills, boolean isActive) {
         super(firstName, lastName, contactNumber, email); // Initialize Person attributes
-        this.id = UUID.randomUUID(); // Generate a unique identifier
+        this.id = id; // Generate a unique identifier
         this.role = role;
         this.skills = new ArrayList<>(skills); // Initialise with a copy of the provided list
         this.isActive = isActive;
