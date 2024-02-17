@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -99,7 +100,7 @@ public class VolunteerController {
      * @return A list of volunteers that match the search criteria, wrapped in a ResponseEntity.
      */
     @GetMapping("/search")
-    public ResponseEntity<List<Volunteer>> searchVolunteers(AdvancedSearchQuery query) {
+    public ResponseEntity<List<Volunteer>> searchVolunteers(@ModelAttribute AdvancedSearchQuery query) {
         List<Volunteer> volunteers = volunteerService.searchVolunteers(query);
         return new ResponseEntity<>(volunteers, HttpStatus.OK);
     }
