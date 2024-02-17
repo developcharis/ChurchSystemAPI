@@ -40,7 +40,7 @@ public class Volunteer extends Person {
      */
     public Volunteer(UUID id, String firstName, String lastName, String contactNumber, String email, String role, List<String> skills, boolean isActive) {
         super(firstName, lastName, contactNumber, email); // Initialize Person attributes
-        this.id = id; // Generate a unique identifier
+        this.id = UUID.randomUUID(); // Generate a unique identifier
         this.role = role;
         this.skills = new ArrayList<>(skills); // Initialise with a copy of the provided list
         this.isActive = isActive;
