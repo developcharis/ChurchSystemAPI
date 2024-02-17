@@ -2,6 +2,8 @@ package com.cbfacademy.apiassessment.search;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 
 /**
  * Represents the criteria for performing advanced searches on volunteers.
@@ -13,6 +15,10 @@ public class AdvancedSearchQuery {
     private String role; // The role to match against volunteers
 
 
+    public AdvancedSearchQuery() {
+        //Default constructor
+    }
+    
     /**
      * Constructs an AdvancedSearchQuery with specified skills, active status, and role.
      *
@@ -20,6 +26,7 @@ public class AdvancedSearchQuery {
      * @param isActive  Flag indicating whether to search for only active volunteers
      * @param role      The role volunteers must have to match the query
      */
+    @JsonCreator
     public AdvancedSearchQuery(List<String> skills, boolean isActive, String role) {
         this.skills = skills;
         this.isActive = isActive;
