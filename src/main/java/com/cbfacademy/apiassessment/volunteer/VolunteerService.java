@@ -61,5 +61,3 @@ public interface VolunteerService {
     List<Volunteer> searchVolunteers(AdvancedSearchQuery query);
    
 }
-
-cd
