@@ -19,6 +19,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.cbfacademy.apiassessment.exception.VolunteerNotFoundException;
+
 
 /**
  * Unit test class for VolunteerServiceImpl.
@@ -140,5 +142,20 @@ public class VolunteerServiceImplTest {
         verify(volunteerRepository, times(1)).save(existingVolunteer); // Verifies that a Volunteer object was saved exactly once
 }
 
+    @Test
+    public void testUpdateVolunteer_NotFound() {
+        // Arrange: Set up the test with a non-existent volunteer ID and update information
+        UUID nonExistentId = UUID.fromString("9ae002a2-3215-43fc-aa9a-2ee8f2883641");
+        Volunteer updateInfo = new Volunteer(UUID.randomUUID(), "Solomon", "Judah", "07777777333", "judahdavid@gmail.com", "Bookkeeper", Arrays.asList ("Numerical skills", "Organisational skills", "Accuracy"), true); // Create a new Volunteer object for update information
+        updateInfo.setFirstName("Jane"); // Set the first name to simulate an update operation
+
+        // Mock the findById method to return an empty Optional, simulating the absence of the volunteer in the repository
+        when(volunteerRepository.findById(nonExistentId)).thenReturn(Optional.empty());
+
+        // Act & Assert: Attempt to update a volunteer with the given ID, expecting a VolunteerNotFoundException to be thrown
+        assertThrows(VolunteerNotFoundException.class, () -> {
+            volunteerService.updateVolunteer(nonExistentId, updateInfo);
+        }, "Expected updateVolunteer to throw VolunteerNotFoundException for a non-existent volunteer ID");
+    }
 }
 
