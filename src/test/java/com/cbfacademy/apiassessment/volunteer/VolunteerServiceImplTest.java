@@ -1,7 +1,17 @@
 package com.cbfacademy.apiassessment.volunteer;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -49,6 +59,39 @@ public class VolunteerServiceImplTest {
         closeable.close();
     }
 
+
+
+    @Test
+    public void testCreateVolunteer_Success() {
+        // Initialize a volunteer object with default null values and then set its properties.
+        // This simulates the data a user might input when creating a new volunteer.
+        Volunteer volunteer = new Volunteer("David", "Judah", "07777777333", "judahdavid@gmail.com", "Bookkeeper", Arrays.asList ("Numerical skills", "Organizational skills", "Accuracy"), true);
+        volunteer.setFirstName("David");
+        volunteer.setLastName("Judah");
+        volunteer.setEmail("judahdavid@gmail.com");
+        volunteer.setContactNumber("07777777333");
+
+        // Mock the behavior of the volunteer repository to return the volunteer object when save is called.
+        // This avoids actual database operations, ensuring the test remains fast and isolated.
+        when(volunteerRepository.save(any(Volunteer.class))).thenReturn(volunteer);
+
+        // Call the createVolunteer method with the mocked volunteer object.
+        // This is the actual operation being tested, ensuring it processes the volunteer creation as expected.
+        Volunteer created = volunteerService.createVolunteer(volunteer);
+
+        // Assert that the created volunteer object is not null, ensuring the createVolunteer method's successful execution.
+        assertNotNull(created);
+
+        // Further assert that the first name of the created volunteer matches the expected value,
+        // verifying the integrity and correctness of the data processed by the createVolunteer method.
+        assertEquals("David", created.getFirstName());
+
+        // Verify that the save method on the repository was called exactly once,
+        // confirming that the service method interacts with the repository as intended.
+        verify(volunteerRepository, times(1)).save(volunteer);
+    }
+
+    
 
 }
 
