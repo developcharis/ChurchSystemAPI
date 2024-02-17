@@ -157,5 +157,23 @@ public class VolunteerServiceImplTest {
             volunteerService.updateVolunteer(nonExistentId, updateInfo);
         }, "Expected updateVolunteer to throw VolunteerNotFoundException for a non-existent volunteer ID");
     }
+
+    @Test
+    public void testGetVolunteerById_Success() {
+        // Arrange: Set up a mock volunteer and its corresponding repository response
+        UUID id = UUID.randomUUID(); // Generate a unique ID for the mock volunteer
+        Volunteer volunteer = new Volunteer(UUID.randomUUID(), "David", "Judah", "07777777333", "judahdavid@gmail.com", "Bookkeeper", Arrays.asList ("Numerical skills", "Organisational skills", "Accuracy"), true); // Initialize the volunteer object
+
+        // Mock the behavior of the repository to return the mock volunteer when findById is called with the specific ID
+        when(volunteerRepository.findById(id)).thenReturn(Optional.of(volunteer));
+
+        // Act: Retrieve the volunteer by ID using the service method
+        Volunteer foundVolunteer = volunteerService.getVolunteerById(id);
+
+        // Assert: Verify the retrieved volunteer is as expected
+        assertNotNull(foundVolunteer, "The found volunteer should not be null");
+        assertEquals("David", foundVolunteer.getFirstName(), "The first name of the found volunteer should match the mock");
+        verify(volunteerRepository, times(1)).findById(id); // Ensure findById is called exactly once
+    }
 }
 
