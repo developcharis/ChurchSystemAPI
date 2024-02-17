@@ -2,6 +2,7 @@ package com.cbfacademy.apiassessment.volunteer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -91,7 +92,25 @@ public class VolunteerServiceImplTest {
         verify(volunteerRepository, times(1)).save(volunteer);
     }
 
-    
+    /**
+     * Tests the behavior of the createVolunteer method when mandatory fields are missing in the Volunteer object.
+     * This test ensures that an IllegalArgumentException is thrown, signaling a violation of data integrity rules
+     * due to missing required volunteer information, such as the first name in this scenario. field.
+     */
+    @Test
+    public void testCreateVolunteer_MissingMandatoryFields() {
+        // Initialize a volunteer object with only an email, intentionally omitting the first name
+        // to simulate a scenario where a mandatory field is missing.
+        Volunteer volunteer = new Volunteer(null, "David", "07777777333", "judahdavid@gmail.com", "Bookkeeper", Arrays.asList ("Numerical skills", "Organizational skills", "Accuracy"), true);
+        volunteer.setEmail("john.doe@example.com"); // Email set, but first name (a mandatory field) is missing
+
+        // Use assertThrows to verify that the expected exception is thrown due to missing mandatory fields.
+        assertThrows(IllegalArgumentException.class, () -> {
+            // Attempt to create a volunteer with missing mandatory fields.
+            // This operation is expected to throw an IllegalArgumentException due to the incomplete data.
+            volunteerService.createVolunteer(volunteer);
+        });
+    }
 
 }
 
