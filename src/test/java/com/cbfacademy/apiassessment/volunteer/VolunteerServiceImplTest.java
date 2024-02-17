@@ -9,6 +9,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,7 +68,7 @@ public class VolunteerServiceImplTest {
     public void testCreateVolunteer_Success() {
         // Initialize a volunteer object with default null values and then set its properties.
         // This simulates the data a user might input when creating a new volunteer.
-        Volunteer volunteer = new Volunteer("David", "Judah", "07777777333", "judahdavid@gmail.com", "Bookkeeper", Arrays.asList ("Numerical skills", "Organizational skills", "Accuracy"), true);
+        Volunteer volunteer = new Volunteer(UUID.randomUUID(), "David", "Judah", "07777777333", "judahdavid@gmail.com", "Bookkeeper", Arrays.asList ("Numerical skills", "Organisational skills", "Accuracy"), true);
         volunteer.setFirstName("David");
         volunteer.setLastName("Judah");
         volunteer.setEmail("judahdavid@gmail.com");
@@ -101,7 +103,7 @@ public class VolunteerServiceImplTest {
     public void testCreateVolunteer_MissingMandatoryFields() {
         // Initialize a volunteer object with only an email, intentionally omitting the first name
         // to simulate a scenario where a mandatory field is missing.
-        Volunteer volunteer = new Volunteer(null, "David", "07777777333", "judahdavid@gmail.com", "Bookkeeper", Arrays.asList ("Numerical skills", "Organizational skills", "Accuracy"), true);
+        Volunteer volunteer = new Volunteer(UUID.randomUUID(), null, "David", "07777777333", "judahdavid@gmail.com", "Bookkeeper", Arrays.asList ("Numerical skills", "Organisational skills", "Accuracy"), true);
         volunteer.setEmail("john.doe@example.com"); // Email set, but first name (a mandatory field) is missing
 
         // Use assertThrows to verify that the expected exception is thrown due to missing mandatory fields.
@@ -111,6 +113,32 @@ public class VolunteerServiceImplTest {
             volunteerService.createVolunteer(volunteer);
         });
     }
+
+    @Test
+    public void testUpdateVolunteer_Success() {
+        // Arange: Set up the testing environment with an existing volunteer and new update information
+        UUID id = UUID.randomUUID(); // Unique ID for the existing volunteer
+        // Create an existing volunteer with a unique UUID and predefined attributes
+        Volunteer existingVolunteer = new Volunteer(UUID.randomUUID(),"David", "Judah", "07777777333", "judahdavid@gmail.com", "Bookkeeper", Arrays.asList ("Numerical skills", "Organisational skills", "Accuracy"), true);
+
+        // Define update information with a new first name but keeping other attributes constant
+        Volunteer updateInfo = new Volunteer(UUID.randomUUID(),"Solomon", "Judah", "07777777333", "judahdavid@gmail.com", "Bookkeeper", Arrays.asList ("Numerical skills", "Organisational skills", "Accuracy"), true);
+
+        // Mock the findById method to return the existing volunteer when the corresponding ID is queried
+        when(volunteerRepository.findById(id)).thenReturn(Optional.of(existingVolunteer));
+        // Mock the save method to simulate the database save operation
+        when(volunteerRepository.save(any(Volunteer.class))).thenReturn(existingVolunteer);
+
+        // Act: Execute the updateVolunteer method with the update information
+        Volunteer updatedVolunteer = volunteerService.updateVolunteer(id, updateInfo);
+
+        // Assert: Validate that the update operation was successful
+        assertNotNull(updatedVolunteer, "The updated volunteer should not be null");
+        assertEquals("Solomon", updatedVolunteer.getFirstName(), "The first name of the volunteer should be updated to Solomon");
+        // Verify that the repository methods were called as expected
+        verify(volunteerRepository, times(1)).findById(id);
+        verify(volunteerRepository, times(1)).save(existingVolunteer); // Verifies that a Volunteer object was saved exactly once
+}
 
 }
 
