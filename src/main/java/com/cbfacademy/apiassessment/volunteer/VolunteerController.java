@@ -60,7 +60,7 @@ public class VolunteerController {
      * @param id the UUID of the volunteer to retrieve
      * @return the requested volunteer with a 200 OK status
      */
-    @GetMapping("/{id}")
+    @GetMapping("/api/volunteers/{id}")
     public ResponseEntity<Volunteer> getVolunteerById(@PathVariable UUID id) {
         Volunteer volunteer = volunteerService.getVolunteerById(id);
         return new ResponseEntity<>(volunteer, HttpStatus.OK);
@@ -73,7 +73,7 @@ public class VolunteerController {
      * @param volunteerUpdate the updated volunteer information
      * @return the updated volunteer with a 200 OK status
      */
-    @PutMapping("/{id}")
+    @PutMapping("/api/volunteers/{id}")
     public ResponseEntity<Volunteer> updateVolunteer(@PathVariable UUID id, @RequestBody Volunteer volunteerUpdate) {
         Volunteer updatedVolunteer = volunteerService.updateVolunteer(id, volunteerUpdate);
         return new ResponseEntity<>(updatedVolunteer, HttpStatus.OK);
@@ -86,7 +86,7 @@ public class VolunteerController {
      * @param id the UUID of the volunteer to delete
      * @return a 204 No Content status on successful deletion
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/volunteers/{id}")
     public ResponseEntity<Void> deleteVolunteer(@PathVariable UUID id) {
         volunteerService.deleteVolunteer(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -99,7 +99,7 @@ public class VolunteerController {
      * @param query The search criteria encapsulated in an AdvancedSearchQuery object.
      * @return A list of volunteers that match the search criteria, wrapped in a ResponseEntity.
      */
-    @GetMapping("/search")
+    @GetMapping("/api/volunteers/search")
     public ResponseEntity<List<Volunteer>> searchVolunteers(@ModelAttribute AdvancedSearchQuery query) {
         List<Volunteer> volunteers = volunteerService.searchVolunteers(query);
         return new ResponseEntity<>(volunteers, HttpStatus.OK);
