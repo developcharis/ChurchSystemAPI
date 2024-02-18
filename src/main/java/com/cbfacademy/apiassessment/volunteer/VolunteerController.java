@@ -99,7 +99,7 @@ public class VolunteerController {
      * @param query The search criteria encapsulated in an AdvancedSearchQuery object.
      * @return A list of volunteers that match the search criteria, wrapped in a ResponseEntity.
      */
-    @GetMapping("/api/volunteers/search")
+    @GetMapping("/search")
     public ResponseEntity<List<Volunteer>> searchVolunteers(@ModelAttribute AdvancedSearchQuery query) {
         List<Volunteer> volunteers = volunteerService.searchVolunteers(query);
         return new ResponseEntity<>(volunteers, HttpStatus.OK);
