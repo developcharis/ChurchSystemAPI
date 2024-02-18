@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -222,6 +223,26 @@ public class VolunteerServiceImplTest {
             volunteerService.deleteVolunteer(id);
         }, "Expected deleteVolunteer to throw VolunteerNotFoundException for a non-existent volunteer ID");
     }
+
+    @Test
+    public void testGetAllVolunteers() {
+        // Arrange: Create a list of volunteers with fixed UUIDs
+        Volunteer volunteer1 = new Volunteer(UUID.randomUUID(), "David", "Judah", "07777777333", "judahdavid@gmail.com", "Bookkeeper", Arrays.asList ("Numerical skills", "Organisational skills", "Accuracy"), true);
+        Volunteer volunteer2 = new Volunteer(UUID.randomUUID(), "Luke", "Branch", "07756888373", "lukeb@aol.com", "Greeter", Arrays.asList ("Sign Language Proficiency", "Customer Service", "Welcoming"), false);
+        List<Volunteer> volunteers = Arrays.asList(volunteer1, volunteer2);
+
+        // Mock the findAll method to return the list of volunteers
+        when(volunteerRepository.findAll()).thenReturn(volunteers);
+
+        // Act: Retrieve all volunteers
+        List<Volunteer> retrievedVolunteers = volunteerService.getAllVolunteers();
+
+        // Assert: Verify the retrieval and contents of the volunteer list
+        assertNotNull(retrievedVolunteers, "Retrieved volunteers list should not be null.");
+        assertEquals(2, retrievedVolunteers.size(), "Retrieved volunteers list should contain 2 volunteers.");
+        verify(volunteerRepository, times(1)).findAll();
+    }
+
 }
 
 
