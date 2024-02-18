@@ -208,6 +208,20 @@ public class VolunteerServiceImplTest {
         verify(volunteerRepository, times(1)).delete(volunteer);
 
     }
+
+    @Test
+    public void testDeleteVolunteer_NotFound() {
+        // Arrange: Generate a unique ID to simulate a search for a non-existent volunteer
+        UUID id = UUID.randomUUID();
+
+        // Mock the behavior of the repository to return an empty Optional when searching for the volunteer by ID
+        when(volunteerRepository.findById(id)).thenReturn(Optional.empty());
+
+        // Act & Assert: Verify that the deleteVolunteer method throws VolunteerNotFoundException when the volunteer is not found
+        assertThrows(VolunteerNotFoundException.class, () -> {
+            volunteerService.deleteVolunteer(id);
+        }, "Expected deleteVolunteer to throw VolunteerNotFoundException for a non-existent volunteer ID");
+    }
 }
 
 
