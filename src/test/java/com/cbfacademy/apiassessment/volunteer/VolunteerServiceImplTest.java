@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.cbfacademy.apiassessment.exception.VolunteerNotFoundException;
+import com.cbfacademy.apiassessment.search.AdvancedSearchQuery;
 
 
 /**
@@ -242,6 +243,27 @@ public class VolunteerServiceImplTest {
         assertEquals(2, retrievedVolunteers.size(), "Retrieved volunteers list should contain 2 volunteers.");
         verify(volunteerRepository, times(1)).findAll();
     }
+
+    @Test
+    public void testSearchVolunteers_MatchingCriteria() {
+        // Arrange: Set up the search query and mock volunteers
+        AdvancedSearchQuery query = new AdvancedSearchQuery(Arrays.asList ("Numerical skills", "Organisational skills", "Accuracy"), true, "Bookkeeper");
+
+        Volunteer volunteer1 = new Volunteer(UUID.randomUUID(), "David", "Judah", "07777777333", "judahdavid@gmail.com", "Bookkeeper", Arrays.asList ("Numerical skills", "Organisational skills", "Accuracy"), true);
+        Volunteer volunteer2 = new Volunteer(UUID.randomUUID(), "Luke", "Branch", "07756888373", "lukeb@aol.com", "Greeter", Arrays.asList ("Sign Language Proficiency", "Customer Service", "Welcoming"), false);
+
+        when(volunteerRepository.findAll()).thenReturn(Arrays.asList(volunteer1, volunteer2));
+
+        // Act: Search for volunteers matching the query criteria
+        List<Volunteer> matchingVolunteers = volunteerService.searchVolunteers(query);
+
+        // Assert: Verify the matching volunteers' details
+        assertNotNull(matchingVolunteers, "The list of matching volunteers should not be null.");
+        assertEquals(1, matchingVolunteers.size(), "There should be 1 volunteer matching the search criteria.");
+        assertEquals("Bookkeeper", matchingVolunteers.get(0).getRole(), "The role of the matching volunteer should be 'Role1'.");
+        verify(volunteerRepository, times(1)).findAll();
+    }
+
 
 }
 
