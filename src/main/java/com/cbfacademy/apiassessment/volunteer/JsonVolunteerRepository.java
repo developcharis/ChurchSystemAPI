@@ -35,7 +35,7 @@ public class JsonVolunteerRepository implements VolunteerRepository {
     private final Gson gson = new Gson();
 
     // Path to the JSON file where volunteer data is stored.
-    private final String filePath = "C:/Users/missg/Desktop/CBF/ChurchSystemAPI/src/main/resources/volunteers.json";
+    private final String filePath = "src/main/resources/volunteers.json";
 
     // Logger instance for logging errors and information.
     private static final Logger logger = LoggerFactory.getLogger(JsonVolunteerRepository.class);
