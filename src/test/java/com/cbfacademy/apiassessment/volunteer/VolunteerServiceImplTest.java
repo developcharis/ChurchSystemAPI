@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -175,6 +176,7 @@ public class VolunteerServiceImplTest {
         assertEquals("David", foundVolunteer.getFirstName(), "The first name of the found volunteer should match the mock");
         verify(volunteerRepository, times(1)).findById(id); // Ensure findById is called exactly once
     }
+
     @Test
     public void testGetVolunteerById_NotFound() {
         // Arrange: Generate a unique ID to simulate a search for a non-existent volunteer
@@ -187,6 +189,24 @@ public class VolunteerServiceImplTest {
         assertThrows(VolunteerNotFoundException.class, () -> {
             volunteerService.getVolunteerById(id);
         }, "Expected getVolunteerById to throw VolunteerNotFoundException for a non-existent volunteer ID");
+    }
+
+    @Test
+    public void testDeleteVolunteer_Success(){
+        // Arrange: Create a volunteer with a fixed UUID to simulate fetching from the repository
+        UUID id = UUID.randomUUID();
+        Volunteer volunteer = new Volunteer(UUID.randomUUID(), "David", "Judah", "07777777333", "judahdavid@gmail.com", "Bookkeeper", Arrays.asList ("Numerical skills", "Organisational skills", "Accuracy"), true);
+        // Mock the behavior of the repository to return the created volunteer when findById is called with the specific ID
+        when(volunteerRepository.findById(id)).thenReturn(Optional.of(volunteer));
+        doNothing().when(volunteerRepository).delete(volunteer);
+
+        // Act: Delete the volunteer by ID using the service method
+        volunteerService.deleteVolunteer(id);
+
+        // Assert: Verify that the repository methods are called as expected
+        verify(volunteerRepository, times(1)).findById(id);
+        verify(volunteerRepository, times(1)).delete(volunteer);
+
     }
 }
 
