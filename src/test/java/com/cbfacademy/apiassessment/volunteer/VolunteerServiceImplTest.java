@@ -175,5 +175,19 @@ public class VolunteerServiceImplTest {
         assertEquals("David", foundVolunteer.getFirstName(), "The first name of the found volunteer should match the mock");
         verify(volunteerRepository, times(1)).findById(id); // Ensure findById is called exactly once
     }
+    @Test
+    public void testGetVolunteerById_NotFound() {
+        // Arrange: Generate a unique ID to simulate a search for a non-existent volunteer
+        UUID id = UUID.randomUUID();
+
+        // Mock the behavior of the repository to return an empty Optional when searching for the volunteer by ID
+        when(volunteerRepository.findById(id)).thenReturn(Optional.empty());
+
+        // Act & Assert: Verify that the getVolunteerById method throws VolunteerNotFoundException when the volunteer is not found
+        assertThrows(VolunteerNotFoundException.class, () -> {
+            volunteerService.getVolunteerById(id);
+        }, "Expected getVolunteerById to throw VolunteerNotFoundException for a non-existent volunteer ID");
+    }
 }
+
 
